@@ -71,13 +71,77 @@ const scoreRound = (round) => {
   return { player1Points, player2Points };
 };
 
+const getWinnerFromLetter = (letter) => {
+  switch (letter) {
+    case "X":
+      return 1;
+      break;
+    case "Y":
+      return 0;
+      break;
+    case "Z":
+      return 2;
+      break;
+  }
+};
+
+const getPlayer2EqFromPlayer1 = (player1) => {
+  switch (player1) {
+    case "A":
+      return "X";
+      break;
+    case "B":
+      return "Y";
+      break;
+    case "C":
+      return "Z";
+      break;
+  }
+};
+
+const getPlayForResult = (player1Choice, desiredResult) => {
+  if (desiredResult == 0) {
+    return getPlayer2EqFromPlayer1(player1Choice);
+  }
+  if (desiredResult == 1) {
+    if (player1Choice == "A") {
+      return "Z";
+    }
+    if (player1Choice == "B") {
+      return "X";
+    }
+    if (player1Choice == "C") {
+      return "Y";
+    }
+  }
+  if (desiredResult == 2) {
+    if (player1Choice == "A") {
+      return "Y";
+    }
+    if (player1Choice == "B") {
+      return "Z";
+    }
+    if (player1Choice == "C") {
+      return "X";
+    }
+  }
+};
+
 const scoreGame = (data) => {
   let player1 = 0;
   let player2 = 0;
 
   data.map((round) => {
+    //draw Y
+    // lose X (1 wins)
+    // win Z (2 wins)
+    const player1Choice = round[0];
+    const desiredResult = getWinnerFromLetter(round[2]);
+    const player2Choice = getPlayForResult(player1Choice, desiredResult);
+    const newRound = player1Choice + " " + player2Choice;
+
     const { player1Points: points1, player2Points: points2 } =
-      scoreRound(round);
+      scoreRound(newRound);
     player1 += points1;
     player2 += points2;
 
