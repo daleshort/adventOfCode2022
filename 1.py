@@ -10,8 +10,7 @@ for line in f:
         if(len(maxCalList) <3):  
             heapq.heappush(maxCalList,calSum)
         elif(calSum > maxCalList[0]):
-            heapq.heappop(maxCalList)
-            heapq.heappush(maxCalList,calSum)
+            heapq.heappushpop(maxCalList,calSum)
         calSum = 0
 
     else:
